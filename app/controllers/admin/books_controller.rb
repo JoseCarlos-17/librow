@@ -1,16 +1,12 @@
-class BooksController < ApplicationController
+class Admin::BooksController < ApplicationController
   before_action :find_book, only: %i[show destroy]
 
   def create
-    book = Book.new(book_params)
+    book = Book.create!(book_params)
 
-    if book.save
-      render json: book,
-             serializer: Books::Create::BooksSerializer,
-             status: :created
-    else
-      render json: { errors: book.errors }, status: :unprocessable_entity
-    end
+    render json: book,
+           serializer: Books::Create::BooksSerializer,
+           status: :created
   end
 
   def show
@@ -20,13 +16,9 @@ class BooksController < ApplicationController
   end
   
   def update
-    book = Book.find(params[:id])
-
-    if book.update(book_params)
-      head :no_content
-    else
-      render json: { errors: book.errors }, status: :unprocessable_entity
-    end
+    find_book.update!(book_params)
+    
+    head :no_content
   end
 
   def index

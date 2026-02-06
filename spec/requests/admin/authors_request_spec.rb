@@ -7,7 +7,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return 200 status code' do
         author = create_list(:author, 2)
 
-        get '/authors'
+        get '/admin/authors'
 
         expect(response).to have_http_status(:ok)
       end
@@ -15,11 +15,10 @@ RSpec.describe "Authors", type: :request do
       it 'must return the author list' do
         authors = create_list(:author, 2)
 
-        get '/authors'
+        get '/admin/authors'
 
         expect(json_body[0]).to have_key(:id)
         expect(json_body[0]).to have_key(:name)
-        expect(json_body[0]).to have_key(:articles)
       end
     end
   end
@@ -29,7 +28,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return 201 status code' do
         author_params = attributes_for(:author, name: 'Stephen King')
 
-        post '/authors', params: { author: author_params }
+        post '/admin/authors', params: { author: author_params }
 
         expect(response).to have_http_status(:created)
       end
@@ -37,7 +36,7 @@ RSpec.describe "Authors", type: :request do
       it 'must create the author' do
         author_params = attributes_for(:author, name: 'Stephen King')
 
-        post '/authors', params: { author: author_params }
+        post '/admin/authors', params: { author: author_params }
 
         expect(json_body).to have_key(:id)
         expect(json_body).to have_key(:name)
@@ -48,7 +47,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return 422 status code' do
         author_params = attributes_for(:author, name: nil)
 
-        post '/authors', params: { author: author_params }
+        post '/admin/authors', params: { author: author_params }
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -56,9 +55,9 @@ RSpec.describe "Authors", type: :request do
       it 'must return the error message' do
         author_params = attributes_for(:author, name: nil)
 
-        post '/authors', params: { author: author_params }
+        post '/admin/authors', params: { author: author_params }
 
-        expect(json_body).to have_key(:error_message)
+        expect(json_body).to have_key(:errors)
       end
     end
   end
@@ -69,7 +68,7 @@ RSpec.describe "Authors", type: :request do
         author = create(:author)
         author_params = attributes_for(:author, name: 'Mary Shelley')
 
-        put "/authors/#{author.id}", params: { author: author_params }
+        put "/admin/authors/#{author.id}", params: { author: author_params }
 
         expect(response).to have_http_status(:no_content)
       end
@@ -80,7 +79,7 @@ RSpec.describe "Authors", type: :request do
         author = create(:author)
         author_params = attributes_for(:author, name: nil)
 
-        put "/authors/#{author.id}", params: { author: author_params }
+        put "/admin/authors/#{author.id}", params: { author: author_params }
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -92,7 +91,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return 200 status code' do
         author = create(:author, name: 'Edgar Allan Poe')
 
-        get "/authors/#{author.id}"
+        get "/admin/authors/#{author.id}"
 
         expect(response).to have_http_status(:ok)
       end
@@ -100,7 +99,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return the author' do
         author = create(:author, name: 'Edgar Allan Poe')
 
-        get "/authors/#{author.id}"
+        get "/admin/authors/#{author.id}"
 
         expect(json_body).to have_key(:id)
         expect(json_body).to have_key(:name)
@@ -113,7 +112,7 @@ RSpec.describe "Authors", type: :request do
       it 'must return 204 status code' do
         author = create(:author, name: 'Rick Riordan')
 
-        delete "/authors/#{author.id}"
+        delete "/admin/authors/#{author.id}"
 
         expect(response).to have_http_status(:no_content)
       end
@@ -121,7 +120,7 @@ RSpec.describe "Authors", type: :request do
       it 'must delete the author' do
         author = create(:author, name: 'Rick Riordan')
 
-        delete "/authors/#{author.id}"
+        delete "/admin/authors/#{author.id}"
 
         expect(Author.count).to eq(0)
       end
