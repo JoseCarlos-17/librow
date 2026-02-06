@@ -9,7 +9,7 @@ RSpec.describe 'Books', type: :request do
       let(:book_params) { attributes_for(:book, author_id: author.id) }
 
       before do
-        post '/books', params: { book: book_params }
+        post '/admin/books', params: { book: book_params }
       end
 
       it 'must return 201 status code' do
@@ -29,7 +29,7 @@ RSpec.describe 'Books', type: :request do
       }
 
       before do
-        post '/books', params: { book: invalid_book_params }
+        post '/admin/books', params: { book: invalid_book_params }
       end
 
       it 'must return 422 status code' do
@@ -45,7 +45,7 @@ RSpec.describe 'Books', type: :request do
   describe 'GET#show' do
     context 'when a book is selected' do
       before do
-        get "/books/#{book.id}"
+        get "/admin/books/#{book.id}"
       end
 
       it 'must return 200 status code' do
@@ -64,7 +64,7 @@ RSpec.describe 'Books', type: :request do
       let(:book_params) { attributes_for(:book, title: 'mystring2') }
 
       before do
-        put "/books/#{book.id}", params: { book: book_params }
+        put "/admin/books/#{book.id}", params: { book: book_params }
       end
 
       it 'must return 204 status code' do
@@ -76,7 +76,7 @@ RSpec.describe 'Books', type: :request do
       let (:invalid_book_params) { attributes_for(:book, title: '') }
 
       before do
-        put "/books/#{book.id}", params: { book: invalid_book_params }
+        put "/admin/books/#{book.id}", params: { book: invalid_book_params }
       end
 
       it 'must return 422 status code' do
@@ -96,7 +96,7 @@ RSpec.describe 'Books', type: :request do
       before do
         books
 
-        get '/books'
+        get '/admin/books'
       end
 
       it 'must return 200 status code' do
@@ -114,7 +114,7 @@ RSpec.describe 'Books', type: :request do
     context 'when a book is deleted' do
       before do
         book
-        delete "/books/#{book.id}"
+        delete "/admin/books/#{book.id}"
       end
 
       it 'must return 204 status code' do
