@@ -1,9 +1,11 @@
 name: CI
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -22,14 +24,10 @@ jobs:
         with:
           ruby-version: 2.7.1
 
-      - uses: Borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
-
       - name: Install Dependencies
         run: |
           sudo apt install -yqq libpq-dev
-          gem install bundler
+          gem install bundler -v 2.4.22
 
       - name: Install Gems
         run: |
@@ -59,7 +57,7 @@ jobs:
           bundle exec rspec spec
 
       - name: Create Coverage Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: coverage/
