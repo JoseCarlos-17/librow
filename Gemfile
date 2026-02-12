@@ -8,6 +8,7 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.5'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'pry', '~> 0.13.1'
 gem 'concurrent-ruby', '1.3.4'
+gem 'activestorage', '~> 6.0'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4'
 gem 'pg'
