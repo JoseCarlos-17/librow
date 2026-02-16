@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Running tests
     runs-on: ubuntu-latest
 
     services: 
@@ -33,7 +34,7 @@ jobs:
         run: |
           bundle install
 
-      - name: Setup database
+      - name: Setup database and test with rspec
         env:
           PG_DATABASE: postgres
           PG_HOST: localhost
@@ -44,16 +45,6 @@ jobs:
           DISABLE_SPRING: 1
         run: |
           bundle exec rails db:prepare
-          bundle exec rake test
-
-      - name: Build and test with rspec
-        env:
-          PG_DATABASE: postgres
-          PG_HOST: localhost
-          PG_USER: postgres
-          PG_PASSWORD: password
-          RAILS_ENV: test
-        run: |
           bundle exec rspec spec
 
       - name: Create Coverage Artifact

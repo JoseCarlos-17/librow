@@ -5,7 +5,8 @@ RSpec.describe "Authors", type: :request do
   describe "GET #index" do
     context 'when the author list is returned' do
       it 'must return 200 status code' do
-        author = create_list(:author, 2)
+        photo = fixture_file_upload("app/assets/images/cover.png", "file/png")
+        author = create_list(:author, 2, photo: photo)
 
         get '/admin/authors'
 
@@ -26,7 +27,9 @@ RSpec.describe "Authors", type: :request do
   describe 'POST #create' do
     context 'when the author is created' do
       it 'must return 201 status code' do
-        author_params = attributes_for(:author, name: 'Stephen King')
+        photo = fixture_file_upload("app/assets/images/cover.png", "file/png")
+        author_params = attributes_for(:author, name: 'Stephen King',
+          photo: photo)
 
         post '/admin/authors', params: { author: author_params }
 
@@ -89,7 +92,8 @@ RSpec.describe "Authors", type: :request do
   describe 'GET #show' do
     context 'when the author is found' do
       it 'must return 200 status code' do
-        author = create(:author, name: 'Edgar Allan Poe')
+        photo = fixture_file_upload("app/assets/images/cover.png", "file/png")
+        author = create(:author, name: 'Edgar Allan Poe', photo: photo)
 
         get "/admin/authors/#{author.id}"
 

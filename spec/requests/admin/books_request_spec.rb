@@ -1,12 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Books', type: :request do
+  let(:photo) { fixture_file_upload("app/assets/images/cover.png", "file/png") }
   let(:author) { create(:author) }
-  let(:book) { create(:book, author_id: author.id) }
+  let(:book) { create(:book, author_id: author.id, photo: photo) }
 
   describe 'POST#create' do
     context 'when a book is created' do
-      let(:book_params) { attributes_for(:book, author_id: author.id) }
+      let(:photo) { fixture_file_upload("app/assets/images/cover.png", "file/png") }
+      let(:book_params) { attributes_for(:book, author_id: author.id,
+        photo: photo) }
 
       before do
         post '/admin/books', params: { book: book_params }

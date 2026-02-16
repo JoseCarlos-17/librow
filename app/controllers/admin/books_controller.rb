@@ -5,13 +5,13 @@ class Admin::BooksController < ApplicationController
     book = Book.create!(book_params)
 
     render json: book,
-           serializer: Books::Create::BooksSerializer,
+           serializer: Admin::Books::Create::BooksSerializer,
            status: :created
   end
 
   def show
     render json: find_book,
-           serializer: Books::Show::BooksSerializer,
+           serializer: Admin::Books::Show::BooksSerializer,
            status: :ok
   end
   
@@ -25,7 +25,7 @@ class Admin::BooksController < ApplicationController
     books = Book.includes(:author)
 
     render json: books,
-           each_serializer: Books::Index::BooksSerializer,
+           each_serializer: Admin::Books::Index::BooksSerializer,
            status: :ok
   end
 
@@ -39,7 +39,7 @@ class Admin::BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title, :description, :author_id,
-                                 :release_date)
+                                 :release_date, :photo)
   end
 
   def find_book
