@@ -3,7 +3,7 @@ class Admin::AuthorsController < ApplicationController
     authors = Author.all
 
     render json: authors,
-           each_serializer: Index::AuthorSerializer,
+           each_serializer: Admin::Authors::Index::AuthorSerializer,
            status: :ok
   end
 
@@ -11,7 +11,7 @@ class Admin::AuthorsController < ApplicationController
     author = Author.create!(author_params)
 
     render json: author,
-           serializer: Create::AuthorSerializer,
+           serializer: Admin::Authors::Create::AuthorSerializer,
            status: :created
   end
 
@@ -27,7 +27,7 @@ class Admin::AuthorsController < ApplicationController
     author = Author.find(params[:id])
 
     render json: author,
-           serializer: Show::AuthorSerializer,
+           serializer: Admin::Authors::Show::AuthorSerializer,
            status: :ok
   end
 
@@ -42,6 +42,6 @@ class Admin::AuthorsController < ApplicationController
   private
 
   def author_params
-    params.require(:author).permit(:name)
+    params.require(:author).permit(:name, :photo)
   end
 end
